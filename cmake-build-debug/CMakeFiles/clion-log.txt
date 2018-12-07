@@ -1,0 +1,4 @@
+/opt/clion-2018.1.6/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/kraken/Knowledge/C++/ECS
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/kraken/Knowledge/C++/ECS/cmake-build-debug
