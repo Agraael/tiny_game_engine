@@ -1,2 +1,6 @@
-./.idea
+.idea
 *~
+*.exe
+*.ilk
+*.pdb
+cmake-build-debug

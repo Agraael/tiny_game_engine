@@ -32,4 +32,4 @@ add_executable( ECS
 				src/EcsSystem.hpp src/EcsSystem.cpp
 				src/utils.hpp
 				src/Position.hpp
-				src/CollisionEngine.cpp src/CollisionEngine.hpp src/Math/Vector3.cpp src/Math/Vector3.hpp src/Math/common.hpp )
+				src/CollisionEngine.cpp src/CollisionEngine.hpp src/Math/Vector3.cpp src/Math/Vector3.hpp src/Math/common.hpp src/Math/Sphere.cpp src/Math/Sphere.hpp )

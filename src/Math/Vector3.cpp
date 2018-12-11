@@ -8,7 +8,7 @@
 #include <tuple>
 #include "Vector3.hpp"
 
-Math3d::Vector3& Math3d::Vector3::operator+=(Math3d::Vector3 const& rhs)
+constexpr Math3d::Vector3& Math3d::Vector3::operator+=(Math3d::Vector3 const& rhs) noexcept
 {
 	this->x += rhs.x;
 	this->y += rhs.y;
@@ -16,7 +16,7 @@ Math3d::Vector3& Math3d::Vector3::operator+=(Math3d::Vector3 const& rhs)
 	return *this;
 }
 
-Math3d::Vector3 Math3d::Vector3::operator+(Math3d::Vector3 const& rhs)
+constexpr Math3d::Vector3 Math3d::Vector3::operator+(Math3d::Vector3 const& rhs) const noexcept
 {
 	return {
 		this->x + rhs.x,
@@ -25,7 +25,12 @@ Math3d::Vector3 Math3d::Vector3::operator+(Math3d::Vector3 const& rhs)
 	};
 }
 
-Math3d::Vector3& Math3d::Vector3::operator-=(Math3d::Vector3 const& rhs)
+constexpr void Math3d::Vector3::add(Math3d::Vector3 const& rhs) noexcept
+{
+	*this += rhs;
+}
+
+constexpr Math3d::Vector3& Math3d::Vector3::operator-=(Math3d::Vector3 const& rhs) noexcept
 {
 	this->x -= rhs.x;
 	this->y -= rhs.y;
@@ -33,7 +38,7 @@ Math3d::Vector3& Math3d::Vector3::operator-=(Math3d::Vector3 const& rhs)
 	return *this;
 }
 
-Math3d::Vector3 Math3d::Vector3::operator-(Math3d::Vector3 const& rhs)
+constexpr Math3d::Vector3 Math3d::Vector3::operator-(Math3d::Vector3 const& rhs) const noexcept
 {
 	return {
 		this->x - rhs.x,
@@ -42,7 +47,13 @@ Math3d::Vector3 Math3d::Vector3::operator-(Math3d::Vector3 const& rhs)
 	};
 }
 
-Math3d::Vector3& Math3d::Vector3::operator*=(double scalar)
+constexpr void Math3d::Vector3::sub(Math3d::Vector3 const& rhs) noexcept
+{
+	*this -= rhs;
+}
+
+
+constexpr Math3d::Vector3& Math3d::Vector3::operator*=(double scalar) noexcept
 {
 	this->x *= scalar;
 	this->y *= scalar;
@@ -50,7 +61,7 @@ Math3d::Vector3& Math3d::Vector3::operator*=(double scalar)
 	return *this;
 }
 
-Math3d::Vector3 Math3d::Vector3::operator*(double scalar)
+constexpr Math3d::Vector3 Math3d::Vector3::operator*(double scalar) const noexcept
 {
 	return {
 		this->x * scalar,
@@ -59,7 +70,13 @@ Math3d::Vector3 Math3d::Vector3::operator*(double scalar)
 	};
 }
 
-Math3d::Vector3& Math3d::Vector3::operator/=(double scalar)
+constexpr void Math3d::Vector3::mult(double scalar) noexcept
+{
+	*this *= scalar;
+}
+
+
+constexpr Math3d::Vector3& Math3d::Vector3::operator/=(double scalar) noexcept
 {
 	this->x /= scalar;
 	this->y /= scalar;
@@ -67,7 +84,7 @@ Math3d::Vector3& Math3d::Vector3::operator/=(double scalar)
 	return *this;
 }
 
-Math3d::Vector3 Math3d::Vector3::operator/(double scalar)
+constexpr Math3d::Vector3 Math3d::Vector3::operator/(double scalar) const noexcept
 {
 	return {
 		this->x / scalar,
@@ -76,12 +93,18 @@ Math3d::Vector3 Math3d::Vector3::operator/(double scalar)
 	};
 }
 
-double Math3d::Vector3::operator*(Math3d::Vector3 const& rhs)
+
+constexpr void Math3d::Vector3::div(double scalar) noexcept
+{
+	*this /= scalar;
+}
+
+constexpr double Math3d::Vector3::operator*(Math3d::Vector3 const& rhs) const noexcept
 {
 	return (this->x * rhs.x) + (this->y * rhs.y) + (this->z * rhs.z);
 }
 
-double Math3d::Vector3::dot(Math3d::Vector3 const& rhs)
+constexpr double Math3d::Vector3::dot(Math3d::Vector3 const& rhs) noexcept
 {
 	return *this * rhs;
 }
@@ -92,12 +115,22 @@ std::ostream& Math3d::operator<<(std::ostream& os, Math3d::Vector3 const& vector
 	return os;
 }
 
-double Math3d::Vector3::magnitude() const
+double Math3d::Vector3::magnitude() const noexcept
 {
 	return std::sqrt(std::pow(x, 2.0f) + std::pow(y, 2.0f) + std::pow(z, 2.0f));
 }
 
-Math3d::Vector3 Math3d::Vector3::cross(Math3d::Vector3 const& rhs)
+
+void Math3d::Vector3::magnitude(double mag)
+{
+	if (mag < 0.0f)
+		throw std::runtime_error("Vector3 : magnitude cannot be set to negative");
+	normalize();
+	*this *= mag;
+}
+
+
+constexpr Math3d::Vector3 Math3d::Vector3::cross(Math3d::Vector3 const& rhs) noexcept
 {
 	return {
 		(this->y * rhs.z) - (this->z) * (rhs.y),
@@ -106,7 +139,7 @@ Math3d::Vector3 Math3d::Vector3::cross(Math3d::Vector3 const& rhs)
 	};
 }
 
-Math3d::Vector3& Math3d::Vector3::operator%=(Math3d::Vector3 const& rhs)
+constexpr Math3d::Vector3& Math3d::Vector3::operator%=(Math3d::Vector3 const& rhs) noexcept
 {
 	this->x = (this->y * rhs.z) - (this->z) * (rhs.y);
 	this->y = (this->z * rhs.x) - (this->x * rhs.z);
@@ -114,7 +147,7 @@ Math3d::Vector3& Math3d::Vector3::operator%=(Math3d::Vector3 const& rhs)
 	return *this;
 }
 
-Math3d::Vector3 Math3d::Vector3::operator%(Math3d::Vector3 const& rhs)
+constexpr Math3d::Vector3 Math3d::Vector3::operator%(Math3d::Vector3 const& rhs) const noexcept
 {
 	return {
 		(this->y * rhs.z) - (this->z) * (rhs.y),
@@ -123,32 +156,32 @@ Math3d::Vector3 Math3d::Vector3::operator%(Math3d::Vector3 const& rhs)
 	};
 }
 
-Math3d::radian Math3d::Vector3::angleXY(Math3d::Vector3 const& rhs)
+Math3d::degree Math3d::Vector3::angleXY(Math3d::Vector3 const& rhs) const noexcept
 {
 	Vector3 a(this->x, this->y, 0.0f);
 	Vector3 b(rhs.x, rhs.y, 0.0f);
 
-	return std::acos((a * b) / (a.magnitude() * b.magnitude()));
+	return Math3d::radianToDegree(std::acos((a * b) / (a.magnitude() * b.magnitude())));
 }
 
-Math3d::radian Math3d::Vector3::angleXZ(Math3d::Vector3 const& rhs)
+Math3d::degree Math3d::Vector3::angleXZ(Math3d::Vector3 const& rhs) const noexcept
 {
 	Vector3 a(this->x, 0.0f, this->z);
 	Vector3 b(rhs.x, 0.0f, rhs.z);
 
-	return std::acos((a * b) / (a.magnitude() * b.magnitude()));
+	return Math3d::radianToDegree(std::acos((a * b) / (a.magnitude() * b.magnitude())));
 
 }
 
-Math3d::radian Math3d::Vector3::angleZY(Math3d::Vector3 const& rhs)
+Math3d::degree Math3d::Vector3::angleZY(Math3d::Vector3 const& rhs) const noexcept
 {
 	Vector3 a(0.0f, this->y, this->z);
 	Vector3 b(0.0f, rhs.y, rhs.z);
 
-	return std::acos((a * b) / (a.magnitude() * b.magnitude()));
+	return Math3d::radianToDegree(std::acos((a * b) / (a.magnitude() * b.magnitude())));
 }
 
-void Math3d::Vector3::normalize()
+void Math3d::Vector3::normalize() noexcept
 {
 	double mag = magnitude();
 
@@ -156,30 +189,43 @@ void Math3d::Vector3::normalize()
 		*this *= (1.0f / mag);
 }
 
-void Math3d::Vector3::rotateXY(Math3d::radian angle)
+void Math3d::Vector3::rotateXY(Math3d::degree angle) noexcept
 {
 	double tmp_x = x;
 	double tmp_y = y;
 
-	this->x = (std::cos(angle) * tmp_x) - (std::sin(angle) * tmp_y);
-	this->y = (std::sin(angle) * tmp_x) + (std::cos(angle) * tmp_y);
+	angle = degreeToRadian(angle);
+	this->x = Math3d::double_round((std::cos(angle) * tmp_x) - (std::sin(angle) * tmp_y));
+	this->y = Math3d::double_round((std::sin(angle) * tmp_x) + (std::cos(angle) * tmp_y));
 }
 
-void Math3d::Vector3::rotateXZ(Math3d::radian angle)
+void Math3d::Vector3::rotateXZ(Math3d::degree angle) noexcept
 {
 	double tmp_x = x;
 	double tmp_z = z;
 
-	this->x = (std::cos(angle) * tmp_x) + (std::sin(angle) * tmp_z);
-	this->z = -(std::sin(angle) * tmp_x) + (std::cos(angle) * tmp_z);
+	angle = degreeToRadian(angle);
+	this->x = Math3d::double_round((std::cos(angle) * tmp_x) + (std::sin(angle) * tmp_z));
+	this->z = Math3d::double_round(-(std::sin(angle) * tmp_x) + (std::cos(angle) * tmp_z));
 }
 
-void Math3d::Vector3::rotateZY(Math3d::radian angle)
+void Math3d::Vector3::rotateZY(Math3d::degree angle) noexcept
 {
 	double tmp_y = y;
 	double tmp_z = z;
 
-	this->y = (std::cos(angle) * tmp_y) - (std::sin(angle) * tmp_z);
-	this->z = (std::sin(angle) * tmp_y) + (std::cos(angle) * tmp_z);
+	angle = degreeToRadian(angle);
+	this->y = Math3d::double_round((std::cos(angle) * tmp_y) - (std::sin(angle) * tmp_z));
+	this->z = Math3d::double_round((std::sin(angle) * tmp_y) + (std::cos(angle) * tmp_z));
+}
+
+double Math3d::Vector3::distance(Math3d::Vector3 const& rhs) const noexcept
+{
+	return (*this - rhs).magnitude();
+}
+
+double Math3d::Vector3::distance(Math3d::Vector3 const& lhs, Math3d::Vector3 const& rhs) noexcept
+{
+	return (lhs - rhs).magnitude();
 }
 
