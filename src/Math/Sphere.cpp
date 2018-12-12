@@ -39,7 +39,23 @@ void Math3d::Sphere::setRadius(double new_radius) noexcept
 	radius.magnitude(new_radius);
 }
 
-bool Math3d::Sphere::intersects(Math3d::Vector3 const& point)
+bool Math3d::Sphere::intersect(Math3d::Sphere const& sphere) noexcept
 {
-	return radius.magnitude() <= center.distance(point);
+	return (radius.magnitude() + sphere.getRadius()) >= center.distance(sphere.getCenter());
 }
+
+bool Math3d::Sphere::contain(Math3d::Vector3 const& point) noexcept
+{
+	return radius.magnitude() >= center.distance(point);
+}
+
+bool Math3d::Sphere::contain(Math3d::Sphere const& sphere) noexcept
+{
+	return radius.magnitude() >= (sphere.getRadius() + center.distance(sphere.getCenter()));
+}
+
+double Math3d::Sphere::volume() const noexcept
+{
+	return ((M_PI * 4) / 3) * std::pow(radius.magnitude(), 3.0);
+}
+

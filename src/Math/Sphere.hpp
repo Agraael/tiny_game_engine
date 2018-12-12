@@ -36,7 +36,12 @@ namespace Math3d
 		constexpr void setCenter(Vector3 const&) noexcept;
 		constexpr void setCenter(double x, double y, double z) noexcept;
 
-		bool intersects(Vector3 const& point);
+		[[nodiscard]] bool contain(Vector3 const& point) noexcept;
+		[[nodiscard]] bool contain(Sphere const& sphere) noexcept;
+		[[nodiscard]] bool intersect(Sphere const& sphere) noexcept;
+
+		[[nodiscard]] double volume() const noexcept;
+
 
 	private:
 		Vector3 center DEFAULT_0_VECTOR3;

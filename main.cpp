@@ -27,9 +27,9 @@ int main()
 //	auto ent = core.makeEntity(MovementComponent{.x =10, .y= 10}, pos);
 //	core.updateSystems(motionSystems, 0);
 
-	Math3d::Vector3 vec1{10, 0, 0};
-	Math3d::Vector3 vec2{5, 0, 0};
+	Math3d::Vector3 vec1{-1, -1, 0};
+	Math3d::Vector3 wall{0, 1, 0};
 
-	std::cout << vec1.distance(vec2) << std::endl;
-	std::cout << vec1.distance(vec2) << std::endl;
+	std::cout << vec1 << std::endl;
+	std::cout << Math3d::Vector3::reflect(vec1, wall) << std::endl;
 }
